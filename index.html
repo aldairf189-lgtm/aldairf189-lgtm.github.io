@@ -1,0 +1,87 @@
+<script>
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const musica = document.getElementById("musica");
+
+let escalaYes = 1;
+let escalaNo = 1;
+
+// Activar música en primer toque
+document.body.addEventListener("click", ()=>{
+    musica.play().catch(()=>{});
+},{once:true});
+
+// BOTÓN NO huye y se hace más pequeño
+noBtn.addEventListener("mouseover", mover);
+noBtn.addEventListener("touchstart", mover);
+noBtn.addEventListener("click", mover);
+
+function mover(){
+    const x=Math.random()*(window.innerWidth-120);
+    const y=Math.random()*(window.innerHeight-60);
+    noBtn.style.left=x+"px";
+    noBtn.style.top=y+"px";
+
+    // SÍ crece
+    escalaYes+=0.2;
+    yesBtn.style.transform="scale("+escalaYes+")";
+
+    // NO se encoje
+    escalaNo-=0.1;
+    if(escalaNo < 0.2){
+        escalaNo = 0.2; // tamaño mínimo
+    }
+    noBtn.style.transform="scale("+escalaNo+")";
+
+    if(navigator.vibrate){
+        navigator.vibrate(200);
+    }
+}
+
+// CUANDO DICE SÍ
+yesBtn.addEventListener("click", ()=>{
+    document.body.innerHTML="";
+    document.body.style.background="linear-gradient(135deg,#ff007f,#ffb6d9)";
+
+    const carta=document.createElement("div");
+    carta.className="carta";
+    carta.innerHTML=`
+    <h2>💌 SABÍA QUE DIRÍAS QUE SÍ 💌</h2>
+    <p>Estoy tan contento y emocionado de que será nuestro primer San Valentín juntos,
+    en nuestro nidito de amor. Qué alegría compartirlo contigo, pero sobre todo
+    despertarlo a tu lado. 💕✨</p>
+    <h3>Ahora oficialmente eres mi San Valentín 💖</h3>
+    <h3>Posdata: Te amo 💖</h3>
+    `;
+    document.body.appendChild(carta);
+
+    lanzar("🎈",20);
+    lanzar("💖",20);
+    lanzar("🐶",20);
+    lanzar("🍣",20);
+    lanzar("🐼",20);
+    lanzarFuegos();
+});
+
+function lanzar(emoji,cantidad){
+    for(let i=0;i<cantidad;i++){
+        let e=document.createElement("div");
+        e.className="emoji";
+        e.innerHTML=emoji;
+        e.style.left=Math.random()*100+"vw";
+        e.style.animationDuration=(Math.random()*3+2)+"s";
+        document.body.appendChild(e);
+    }
+}
+
+function lanzarFuegos(){
+    for(let i=0;i<20;i++){
+        let f=document.createElement("div");
+        f.className="firework";
+        f.innerHTML="✨";
+        f.style.left=Math.random()*100+"vw";
+        f.style.top=Math.random()*100+"vh";
+        document.body.appendChild(f);
+    }
+}
+</script>
